@@ -1,7 +1,7 @@
 /*Vlasenko Anastasiya Igorevna    st128044@student.spbu.ru    Test1*/
 
 #include <iostream>
-#include "header.h"
+#include "hello.h"
 #include <string>
 
 using namespace std;
