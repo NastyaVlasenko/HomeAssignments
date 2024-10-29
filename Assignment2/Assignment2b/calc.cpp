@@ -4,7 +4,8 @@
 
 double problem2::calc()
 {
-    std::string polishline = problem2::rpol();
+    std::string polishline;
+    getline (std::cin, polishline);
     double* steckline = new double [polishline.length()];
     std::string temp;
     int t = -1;
