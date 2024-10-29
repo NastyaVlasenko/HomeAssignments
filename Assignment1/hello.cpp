@@ -3,8 +3,6 @@
 #include <iostream>
 #include "hello.h"
 
-using namespace std;
-
 void hello() {
-	cout<<"Hello, ";
+	std::cout<<"Hello, ";
 }

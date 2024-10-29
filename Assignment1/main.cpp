@@ -4,17 +4,16 @@
 #include "hello.h"
 #include <string>
 
-using namespace std;
-
 int main() {
-	string name;
+	std::string name;
 	hello();
-	cout<<"World!"<<endl;
+	std::cout<<"World!"<<std::endl;
+        std::cout<<"Print *close* to exit"<<std::endl;
 	while (true) {
-		getline(cin, name);
+		getline(std::cin, name);
 		if (name == "close") {break;}
 		hello();
-		cout<<name<<"!"<<endl;
+		std::cout<<name<<"!"<<std::endl;
 	}
 	return 0;
 }
