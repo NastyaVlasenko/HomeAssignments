@@ -1,28 +1,55 @@
-all: project
+PROJECT = project
 
-project: main.o transformers.o composition.o avtobot.o decepticon.o dinobot.o
-	g++ main.o transformers.o composition.o avtobot.o decepticon.o dinobot.o -o project
+LIBPROJECT = $(PROJECT).a
 
-transformers.o: transformers.cpp transformers.h
-	g++ -c transformers.cpp -o transformers.o
+TESTPROJECT = test-$(PROJECT)
 
-main.o: main.cpp assig3.h
-	g++ -c main.cpp -o main.o
+CXX = g++
 
-composition.o: composition.cpp composition.h
-	g++ -c composition.cpp -o composition.o
+A = ar
 
-avtobot.o: avtobot.cpp avtobot.h
-	g++ -c avtobot.cpp -o avtobot.o
+AFLAGS = rsv
 
-decepticon.o: decepticon.cpp decepticon.h
-	g++ -c decepticon.cpp -o decepticon.o
+CCXFLAGS = -I. -std=c++17 -Wall -g -fPIC -Werror -Wpedantic -Wall
 
-dinobot.o: dinobot.cpp dinobot.h
-	g++ -c dino.cpp -o dinobot.o
+LDXXFLAGS = $(CCXFLAGS) -L. -l:$(LIBPROJECT)
 
-transformers_test.o: transformers_test.cpp transformers.h composition.h avtobot.h decepticon.h dinobot.h
-	g++ -c transformers_test.cpp -o transformers_test.o
+LDGTESTFLAGS = $(LDXXFLAGS) -lgtest -lgtest_main -lpthread
+
+DEPS=$(wildcard *.h)
+
+OBJ=composition.o transformers.o avtobot.o decepticon.o dinobot.o
+
+TEST-OBJ=test-transformers.o
+
+.PHONY: default
+
+default: all;
+
+%.o: %.cpp $(DEPS)
+	$(CXX) -c -o $@ $< $(CXXFLAGS)
+
+$(LIBPROJECT): $(OBJ)
+	$(A) $(AFLAGS) $@ $^
+
+$(PROJECT): main.o $(LIBPROJECT)
+	$(CXX) -o $@ main.o $(LDXXFLAGS)
+
+
+$(TESTPROJECT): $(LIBPROJECT) $(TEST-OBJ)
+	$(CXX) -o $@ $(TEST-OBJ) $(LDGTESTFLAGS)
+
+test: $(TESTPROJECT)
+
+all: $(PROJECT)
+
+.PHONY: clean
 
 clean:
-	rm -rf *.o
+	rm -f *.o
+
+cleanall: clean
+	rm -f $(PROJECT)
+	rm -f $(LIBPROJECT)
+	rm -f $(TESTPROJECT)
+
