@@ -12,7 +12,7 @@ LDGTESTFLAGS = $(LDXXFLAGS) -lgtest -lgtest_main -lpthread
 
 DEPS=$(wildcard *.h)
 OBJ = $(wildcard *.o)
-TEST-OBJ=class_test.o
+TEST-OBJ=test-class.o
 
 .PHONY: default
 
